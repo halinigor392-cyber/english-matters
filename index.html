@@ -6,28 +6,50 @@
 <title>English Matters</title>
 <style>
 :root{--blue:#2457d6;--dark:#17233d;--muted:#68758d;--bg:#f4f7fc;--line:#e4eaf4;--white:#fff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--dark);font:16px/1.5 Arial,sans-serif}
-header{background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--dark);font:16px/1.5 Arial,sans-serif}
+header{background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;box-shadow:0 3px 16px rgba(30,55,100,.04)}
 .wrap{max-width:1050px;margin:auto;padding:0 20px}
-.top{height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{font-size:22px;font-weight:800;color:var(--blue)}nav{display:flex;gap:8px;flex-wrap:wrap}
+.top{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-size:22px;font-weight:800;color:var(--blue)}
+nav{display:flex;gap:8px;flex-wrap:wrap}
 nav button,.btn{border:0;border-radius:10px;padding:10px 14px;background:#edf2ff;color:var(--blue);font-weight:700;cursor:pointer}
 nav button.active,.btn.primary{background:var(--blue);color:white}
-main{padding:30px 0 60px}.page{display:none}.page.active{display:block}
+main{padding:30px 0 60px}
+.page{display:none}
+.page.active{display:block;animation:pageEnter .38s cubic-bezier(.2,.7,.2,1) both}
+@keyframes pageEnter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.page.active{animation:none}*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
 .hero{background:linear-gradient(120deg,#1e4ec6,#4778ed);color:#fff;padding:34px;border-radius:22px;margin-bottom:22px}
-.hero h1{font-size:34px;line-height:1.15;margin:0 0 12px}.hero p{max-width:650px;color:#eaf0ff}
+.hero h1{font-size:34px;line-height:1.15;margin:0 0 12px}
+.hero p{max-width:650px;color:#eaf0ff}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-.card{background:white;border:1px solid var(--line);border-radius:17px;padding:20px;margin-bottom:16px}
-.card h2,.card h3{margin-top:0}.muted{color:var(--muted)}.stat{font-size:28px;font-weight:800;color:var(--blue)}
-.word{font-size:30px;font-weight:800;margin:8px 0}.translation{font-size:19px;color:var(--blue)}
-.question{padding:16px 0;border-bottom:1px solid var(--line)}.question:last-child{border:0}
+.card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:20px;margin-bottom:16px;box-shadow:0 5px 20px rgba(31,55,100,.035);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(31,55,100,.08);border-color:#d3def5}
+button,.btn{transition:background .2s ease,color .2s ease,transform .2s ease,box-shadow .2s ease}
+button:hover:not(:disabled),.btn:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(36,87,214,.13)}
+button:focus-visible,.btn:focus-visible{outline:3px solid rgba(36,87,214,.28);outline-offset:3px}
+html{scroll-behavior:smooth}
+.card h2,.card h3{margin-top:0}
+.muted{color:var(--muted)}
+.stat{font-size:28px;font-weight:800;color:var(--blue)}
+.word{font-size:30px;font-weight:800;margin:8px 0}
+.translation{font-size:19px;color:var(--blue)}
+.question{padding:16px 0;border-bottom:1px solid var(--line)}
+.question:last-child{border:0}
 label.option{display:block;padding:9px 12px;border:1px solid var(--line);border-radius:10px;margin:7px 0;cursor:pointer}
-input[type=radio]{margin-right:8px}.feedback{font-weight:700;margin-top:12px}
+input[type=radio]{margin-right:8px}
+.feedback{font-weight:700;margin-top:12px}
 textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit}
 button:disabled{opacity:.5;cursor:not-allowed}
-.progress{height:10px;background:#e9eef8;border-radius:20px;overflow:hidden}.progress span{display:block;height:100%;background:var(--blue);width:0}
+.progress{height:10px;background:#e9eef8;border-radius:20px;overflow:hidden}
+.progress span{display:block;height:100%;background:linear-gradient(90deg,#2457d6,#6b91f2);width:0;transition:width .55s cubic-bezier(.2,.7,.2,1)}
 footer{text-align:center;color:var(--muted);padding:20px}
-@media(max-width:650px){.top{height:auto;padding:14px 0;align-items:flex-start;flex-direction:column}.hero h1{font-size:28px}.wrap{padding:0 14px}}
+@media(max-width:650px){
+ .top{padding:14px 0;align-items:flex-start;flex-direction:column}
+ .hero h1{font-size:28px}
+ .wrap{padding:0 14px}
+}
 </style>
 </head>
 <body>
@@ -37,6 +59,7 @@ footer{text-align:center;color:var(--muted);padding:20px}
 <main class="wrap">
 <section id="home" class="page active">
 <div class="hero"><h1>Английский — больше возможностей</h1><p>Изучай полезную лексику, проверяй грамматику и тренируй перевод. Небольшие занятия помогут регулярно практиковать английский язык.</p><button class="btn" onclick="showPage('words')">Начать обучение →</button></div>
+
 <div class="grid">
 <div class="card"><div class="muted">Изучено слов</div><div class="stat" id="homeWords">0</div></div>
 <div class="card"><div class="muted">Правильных ответов</div><div class="stat" id="homeCorrect">0</div></div>
@@ -56,7 +79,8 @@ footer{text-align:center;color:var(--muted);padding:20px}
 <section id="progress" class="page">
 <div class="card"><h2>Мой прогресс</h2><div class="grid"><div><div class="muted">Изучено слов</div><div class="stat" id="pWords">0</div></div><div><div class="muted">Правильных ответов</div><div class="stat" id="pCorrect">0</div></div><div><div class="muted">Баллы</div><div class="stat" id="pPoints">0</div></div></div><h3>Слова</h3><div class="progress"><span id="wordProgress"></span></div><p class="muted" id="progressCaption"></p><button class="btn" id="reset">Сбросить прогресс</button></div>
 </section>
-</main><footer>English Matters · learn regularly and discover new more opportunities</footer>
+</main>
+<footer>English Matters · learn regularly and discover new opportunities</footer>
 <script>
 const words=[
 ['achieve','достигать','She worked hard to achieve her goal.'],
@@ -77,7 +101,7 @@ const words=[
 ['valuable','ценный','Knowledge is valuable.'],
 ['avoid','избегать','Try to avoid making mistakes.'],
 ['maintain','поддерживать','It is important to maintain progress.'],
-['opinion','мнение','Everyone has their own opinion.'],
+['opinion','мнение','Everyone has their own opinion.']
 ];
 const questions=[
 ['She ___ English for three years.',['studies','has been studying','is study'],1],
@@ -97,7 +121,8 @@ const sentences=[
 ['Она достигла своей цели благодаря упорной работе.','She achieved her goal through hard work.'],
 ['Знание английского может быть полезно в будущей карьере.','Knowledge of English can be useful in a future career.']
 ];
-let state=JSON.parse(localStorage.getItem('emProgress')||'{"known":[],"correct":0,"points":0}');
+let state;
+try{state=JSON.parse(localStorage.getItem('emProgress')||'{"known":[],"correct":0,"points":0}')}catch(e){state={known:[],correct:0,points:0}}
 let wi=0,si=0;
 function save(){localStorage.setItem('emProgress',JSON.stringify(state));updateStats()}
 function updateStats(){
@@ -107,7 +132,7 @@ function updateStats(){
 document.getElementById('wordProgress').style.width=(state.known.length/words.length*100)+'%';
 document.getElementById('progressCaption').textContent=state.known.length+' из '+words.length+' слов изучено';
 }
-function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));}
+function showPage(id){const current=document.querySelector('.page.active');if(current&&current.id===id)return;document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(current){current.classList.remove('active');}const next=document.getElementById(id);if(next){next.classList.remove('active');void next.offsetWidth;next.classList.add('active');}window.scrollTo({top:0,behavior:'smooth'});}
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
 function renderWord(){let w=words[wi];document.getElementById('wordCard').innerHTML=`<div class="word">${w[0]}</div><div class="translation">${w[1]}</div><p>${w[2]}</p><p class="muted">Карточка ${wi+1} из ${words.length}</p>`;document.getElementById('knownBtn').disabled=state.known.includes(w[0]);document.getElementById('knownBtn').textContent=state.known.includes(w[0])?'Уже изучено ✓':'Знаю это слово ✓'}
 document.getElementById('knownBtn').onclick=()=>{if(!state.known.includes(words[wi][0])){state.known.push(words[wi][0]);state.points+=5;save();renderWord()}};
@@ -119,4 +144,6 @@ document.getElementById('showTranslation').onclick=()=>{document.getElementById(
 document.getElementById('nextSentence').onclick=()=>{si=(si+1)%sentences.length;renderSentence()};
 document.getElementById('reset').onclick=()=>{if(confirm('Сбросить весь сохранённый прогресс?')){state={known:[],correct:0,points:0};save();renderWord()}};
 renderWord();renderQuiz();renderSentence();updateStats();
-</script></body></html>
+</script>
+</body>
+</html>
