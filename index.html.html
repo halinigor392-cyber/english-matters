@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Matters</title>
+<style>
+:root{--blue:#2457d6;--dark:#17233d;--muted:#68758d;--bg:#f4f7fc;--line:#e4eaf4;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--dark);font:16px/1.5 Arial,sans-serif}
+header{background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.wrap{max-width:1050px;margin:auto;padding:0 20px}
+.top{height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-size:22px;font-weight:800;color:var(--blue)}nav{display:flex;gap:8px;flex-wrap:wrap}
+nav button,.btn{border:0;border-radius:10px;padding:10px 14px;background:#edf2ff;color:var(--blue);font-weight:700;cursor:pointer}
+nav button.active,.btn.primary{background:var(--blue);color:white}
+main{padding:30px 0 60px}.page{display:none}.page.active{display:block}
+.hero{background:linear-gradient(120deg,#1e4ec6,#4778ed);color:#fff;padding:34px;border-radius:22px;margin-bottom:22px}
+.hero h1{font-size:34px;line-height:1.15;margin:0 0 12px}.hero p{max-width:650px;color:#eaf0ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:white;border:1px solid var(--line);border-radius:17px;padding:20px;margin-bottom:16px}
+.card h2,.card h3{margin-top:0}.muted{color:var(--muted)}.stat{font-size:28px;font-weight:800;color:var(--blue)}
+.word{font-size:30px;font-weight:800;margin:8px 0}.translation{font-size:19px;color:var(--blue)}
+.question{padding:16px 0;border-bottom:1px solid var(--line)}.question:last-child{border:0}
+label.option{display:block;padding:9px 12px;border:1px solid var(--line);border-radius:10px;margin:7px 0;cursor:pointer}
+input[type=radio]{margin-right:8px}.feedback{font-weight:700;margin-top:12px}
+textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit}
+button:disabled{opacity:.5;cursor:not-allowed}
+.progress{height:10px;background:#e9eef8;border-radius:20px;overflow:hidden}.progress span{display:block;height:100%;background:var(--blue);width:0}
+footer{text-align:center;color:var(--muted);padding:20px}
+@media(max-width:650px){.top{height:auto;padding:14px 0;align-items:flex-start;flex-direction:column}.hero h1{font-size:28px}.wrap{padding:0 14px}}
+</style>
+</head>
+<body>
+<header><div class="wrap top"><div class="brand">English Matters</div><nav id="nav">
+<button class="active" data-page="home">Главная</button><button data-page="words">Слова</button><button data-page="grammar">Грамматика</button><button data-page="translate">Перевод</button><button data-page="progress">Мой прогресс</button>
+</nav></div></header>
+<main class="wrap">
+<section id="home" class="page active">
+<div class="hero"><h1>Английский — больше возможностей</h1><p>Изучай полезную лексику, проверяй грамматику и тренируй перевод. Небольшие занятия помогут регулярно практиковать английский язык.</p><button class="btn" onclick="showPage('words')">Начать обучение →</button></div>
+<div class="grid">
+<div class="card"><div class="muted">Изучено слов</div><div class="stat" id="homeWords">0</div></div>
+<div class="card"><div class="muted">Правильных ответов</div><div class="stat" id="homeCorrect">0</div></div>
+<div class="card"><div class="muted">Баллы</div><div class="stat" id="homePoints">0</div></div>
+</div>
+<div class="card"><h2>Что можно делать на сайте?</h2><p>• Запоминать слова уровня B1–B2 с примерами.</p><p>• Проходить грамматический тест.</p><p>• Переводить предложения с русского на английский.</p><p>• Следить за личным прогрессом.</p></div>
+</section>
+<section id="words" class="page">
+<div class="card"><h2>Словарные карточки</h2><p class="muted">Изучи слово, прочитай пример и отметь его как изученное.</p><div id="wordCard"></div><button class="btn" id="knownBtn">Знаю это слово ✓</button> <button class="btn primary" id="nextWord">Следующее слово →</button></div>
+</section>
+<section id="grammar" class="page">
+<div class="card"><h2>Грамматический тест</h2><p class="muted">Выбери один правильный вариант в каждом вопросе.</p><form id="quiz"></form><button class="btn primary" id="checkQuiz">Проверить ответы</button><div id="quizResult" class="feedback"></div></div>
+</section>
+<section id="translate" class="page">
+<div class="card"><h2>Практика перевода</h2><p class="muted">Переведи предложение на английский. После ответа открой пример перевода.</p><h3 id="ruSentence"></h3><textarea id="translationInput" placeholder="Напиши перевод на английском..."></textarea><p><button class="btn primary" id="showTranslation">Показать пример</button> <button class="btn" id="nextSentence">Следующее предложение</button></p><div id="translationAnswer" class="feedback"></div></div>
+</section>
+<section id="progress" class="page">
+<div class="card"><h2>Мой прогресс</h2><div class="grid"><div><div class="muted">Изучено слов</div><div class="stat" id="pWords">0</div></div><div><div class="muted">Правильных ответов</div><div class="stat" id="pCorrect">0</div></div><div><div class="muted">Баллы</div><div class="stat" id="pPoints">0</div></div></div><h3>Слова</h3><div class="progress"><span id="wordProgress"></span></div><p class="muted" id="progressCaption"></p><button class="btn" id="reset">Сбросить прогресс</button></div>
+</section>
+</main><footer>English Matters · Учись регулярно и открывай новые возможности</footer>
+<script>
+const words=[
+['achieve','достигать','She worked hard to achieve her goal.'],
+['improve','улучшать','Reading every day can improve your vocabulary.'],
+['opportunity','возможность','Learning English can create new opportunities.'],
+['environment','окружающая среда; обстановка','A supportive environment helps students learn.'],
+['require','требовать','This task requires careful attention.'],
+['knowledge','знания','Knowledge becomes more useful when you apply it.'],
+['develop','развивать','You can develop your speaking skills through practice.'],
+['challenge','трудность; вызов','Learning a language is a rewarding challenge.'],
+['confident','уверенный','Practice helps me feel more confident.'],
+['essential','необходимый','Communication is an essential skill.']
+];
+const questions=[
+['She ___ English for three years.',['studies','has been studying','is study'],1],
+['If I ___ more time, I would travel.',['have','had','will have'],1],
+['They ___ the project yesterday.',['finish','have finished','finished'],2],
+['By the time we arrived, the film ___.',['started','had started','has started'],1],
+['He is interested ___ science.',['in','on','at'],0],
+['I have never ___ to London.',['been','went','being'],0],
+['This book is ___ than the previous one.',['interesting','more interesting','most interesting'],1],
+['You ___ wear a seat belt in a car.',['should','would to','can to'],0]
+];
+const sentences=[
+['Я стараюсь улучшать свой английский каждый день.','I try to improve my English every day.'],
+['Изучение языков открывает новые возможности.','Learning languages opens up new opportunities.'],
+['Мне потребовалось время, чтобы привыкнуть к новой обстановке.','It took me time to get used to the new environment.'],
+['Если бы у меня было больше практики, я говорил бы увереннее.','If I had more practice, I would speak more confidently.'],
+['Она достигла своей цели благодаря упорной работе.','She achieved her goal through hard work.'],
+['Знание английского может быть полезно в будущей карьере.','Knowledge of English can be useful in a future career.']
+];
+let state=JSON.parse(localStorage.getItem('emProgress')||'{"known":[],"correct":0,"points":0}');
+let wi=0,si=0;
+function save(){localStorage.setItem('emProgress',JSON.stringify(state));updateStats()}
+function updateStats(){
+['homeWords','pWords'].forEach(id=>document.getElementById(id).textContent=state.known.length);
+['homeCorrect','pCorrect'].forEach(id=>document.getElementById(id).textContent=state.correct);
+['homePoints','pPoints'].forEach(id=>document.getElementById(id).textContent=state.points);
+document.getElementById('wordProgress').style.width=(state.known.length/words.length*100)+'%';
+document.getElementById('progressCaption').textContent=state.known.length+' из '+words.length+' слов изучено';
+}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+function renderWord(){let w=words[wi];document.getElementById('wordCard').innerHTML=`<div class="word">${w[0]}</div><div class="translation">${w[1]}</div><p>${w[2]}</p><p class="muted">Карточка ${wi+1} из ${words.length}</p>`;document.getElementById('knownBtn').disabled=state.known.includes(w[0]);document.getElementById('knownBtn').textContent=state.known.includes(w[0])?'Уже изучено ✓':'Знаю это слово ✓'}
+document.getElementById('knownBtn').onclick=()=>{if(!state.known.includes(words[wi][0])){state.known.push(words[wi][0]);state.points+=5;save();renderWord()}};
+document.getElementById('nextWord').onclick=()=>{wi=(wi+1)%words.length;renderWord()};
+function renderQuiz(){document.getElementById('quiz').innerHTML=questions.map((q,i)=>`<div class="question"><strong>${i+1}. ${q[0]}</strong>${q[1].map((a,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}">${a}</label>`).join('')}</div>`).join('')}
+document.getElementById('checkQuiz').onclick=()=>{let score=0;questions.forEach((q,i)=>{let a=document.querySelector(`input[name=q${i}]:checked`);if(a&&+a.value===q[2])score++});state.correct+=score;state.points+=score*2;save();document.getElementById('quizResult').textContent=`Результат: ${score} из ${questions.length}. За правильные ответы начислено ${score*2} баллов.`};
+function renderSentence(){document.getElementById('ruSentence').textContent=sentences[si][0];document.getElementById('translationInput').value='';document.getElementById('translationAnswer').textContent=''}
+document.getElementById('showTranslation').onclick=()=>{document.getElementById('translationAnswer').textContent='Возможный перевод: '+sentences[si][1];state.points+=1;save()};
+document.getElementById('nextSentence').onclick=()=>{si=(si+1)%sentences.length;renderSentence()};
+document.getElementById('reset').onclick=()=>{if(confirm('Сбросить весь сохранённый прогресс?')){state={known:[],correct:0,points:0};save();renderWord()}};
+renderWord();renderQuiz();renderSentence();updateStats();
+</script></body></html>
