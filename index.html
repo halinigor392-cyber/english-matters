@@ -71,27 +71,6 @@ footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid va
  .wrap{padding:0 16px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
-
-/* Vocabulary enhancements */
-.vocab-tools{display:grid;grid-template-columns:1fr 220px;gap:10px;margin:18px 0}
-.vocab-tools input,.vocab-tools select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:13px;background:var(--white);color:var(--coffee);font:inherit;outline:none}
-.vocab-tools input:focus,.vocab-tools select:focus{border-color:var(--olive);box-shadow:0 0 0 3px rgba(95,111,82,.12)}
-.word-panel{background:linear-gradient(145deg,#FFFEFC,#F5EFE6);border:1px solid var(--line);border-radius:19px;padding:24px;margin:18px 0}
-.word-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.level-tag{display:inline-flex;background:#E8EDE3;color:var(--olive-dark);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:750;letter-spacing:.5px}
-.word-phonetic{color:var(--muted);font-size:16px;letter-spacing:1px;margin:-4px 0 12px}
-.word-example{background:rgba(255,255,255,.7);border-left:3px solid var(--terracotta);padding:12px 15px;border-radius:0 12px 12px 0;margin:18px 0}
-.word-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
-.word-actions .btn{font-size:14px}
-.vocab-progress{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:13px;margin:12px 0 7px}
-.word-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:9px;margin-top:15px}
-.word-result{border:1px solid var(--line);border-radius:12px;background:var(--white);padding:11px 13px;text-align:left;color:var(--coffee);cursor:pointer;transition:background .2s,border .2s}
-.word-result:hover{background:var(--sage);border-color:#C8B9A7}
-.word-result strong{display:block;color:var(--olive-dark)}
-.word-result small{color:var(--muted)}
-.word-result.done{border-color:#A9B99C;background:#F2F5EF}
-@media(max-width:600px){.vocab-tools{grid-template-columns:1fr}.word-panel{padding:18px}}
-
 </style>
 </head>
 <body>
@@ -100,47 +79,16 @@ footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid va
 </nav></div></header>
 <main class="wrap">
 <section id="home" class="page active">
-<div class="hero"><div class="hero-copy"><span class="eyebrow">✦ Your English space</span><h1>Открывай мир через английский</h1><p>Изучай лексику B1–C1, слушай произношение, разбирай грамматику и тренируй перевод. Маленькие шаги каждый день — уверенное движение вперёд.</p><button class="btn accent" onclick="showPage('words')">Начать обучение&nbsp; →</button></div><div class="hero-art"><div class="book-card"><small>English Matters · journal</small><strong>Learn.<br>Explore.<br>Grow.</strong><em>Make every word count.</em></div></div></div>
+<div class="hero"><div class="hero-copy"><span class="eyebrow">✦ Your English space</span><h1>Открывай мир через английский</h1><p>Изучай полезную лексику, разбирай грамматику и тренируй перевод. Маленькие шаги каждый день — уверенное движение вперёд.</p><button class="btn accent" onclick="showPage('words')">Начать обучение&nbsp; →</button></div><div class="hero-art"><div class="book-card"><small>English Matters · journal</small><strong>Learn.<br>Explore.<br>Grow.</strong><em>Make every word count.</em></div></div></div>
 <div class="grid">
 <div class="stat-card"><div class="muted">Изучено слов</div><div class="stat" id="homeWords">0</div></div>
 <div class="stat-card"><div class="muted">Правильных ответов</div><div class="stat" id="homeCorrect">0</div></div>
 <div class="stat-card"><div class="muted">Баллы</div><div class="stat" id="homePoints">0</div></div>
 </div>
-<div class="card"><span class="section-kicker">Explore & learn</span><h2>Твой путь к английскому</h2><p>• Изучай более 60 слов уровней B1–C1 с транскрипцией и примерами.</p><p>• Проверяй знания в грамматических тестах.</p><p>• Переводи предложения с русского на английский.</p><p>• Следи за личным прогрессом и возвращайся к занятиям.</p></div>
+<div class="card"><span class="section-kicker">Explore & learn</span><h2>Твой путь к английскому</h2><p>• Запоминай слова уровня B1–B2 с примерами.</p><p>• Проверяй знания в грамматических тестах.</p><p>• Переводи предложения с русского на английский.</p><p>• Следи за личным прогрессом и возвращайся к занятиям.</p></div>
 </section>
 <section id="words" class="page">
-<div class="card">
-<span class="section-kicker">Vocabulary · B1–C1</span>
-<h2>Словарные карточки</h2>
-<p class="muted">Изучай лексику, слушай произношение и возвращайся к словам, которые хочешь повторить.</p>
-<div class="vocab-tools">
-<input id="wordSearch" type="search" placeholder="Найти слово или перевод..." aria-label="Поиск по словарю">
-<select id="wordCategory" aria-label="Категория слов">
-<option value="all">Все категории</option>
-<option value="Core">Core vocabulary</option>
-<option value="Academic">Academic English</option>
-<option value="Travel">Travel & culture</option>
-<option value="Society">Society & lifestyle</option>
-<option value="Advanced">Advanced vocabulary</option>
-</select>
-</div>
-<div class="vocab-progress"><span id="vocabCount">Карточка 1</span><span id="knownCount">Изучено: 0</span></div>
-<div class="progress"><span id="vocabBar"></span></div>
-<div id="wordCard" class="word-panel"></div>
-<div class="word-actions">
-<button class="btn" id="speakWord" type="button">🔊 Слушать</button>
-<button class="btn" id="revealWord" type="button">Показать перевод</button>
-<button class="btn" id="knownBtn" type="button">Знаю это слово ✓</button>
-</div>
-<div class="word-actions">
-<button class="btn" id="prevWord" type="button">← Назад</button>
-<button class="btn primary" id="nextWord" type="button">Следующее слово →</button>
-<button class="btn accent" id="randomWord" type="button">Случайное слово</button>
-</div>
-<h3 style="margin-top:28px">Словарь целиком</h3>
-<p class="muted">Нажми на слово, чтобы открыть его карточку.</p>
-<div id="wordResults" class="word-results"></div>
-</div>
+<div class="card"><span class="section-kicker">Vocabulary</span><h2>Словарные карточки</h2><p class="muted">Изучи слово, прочитай пример и отметь его как изученное.</p><div id="wordCard"></div><button class="btn" id="knownBtn">Знаю это слово ✓</button> <button class="btn primary" id="nextWord">Следующее слово →</button></div>
 </section>
 <section id="grammar" class="page">
 <div class="card"><span class="section-kicker">Grammar practice</span><h2>Грамматический тест</h2><p class="muted">Выбери один правильный вариант в каждом вопросе.</p><form id="quiz"></form><button class="btn primary" id="checkQuiz">Проверить ответы</button><div id="quizResult" class="feedback"></div></div>
@@ -153,74 +101,26 @@ footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid va
 </section>
 </main><footer>English Matters · learn regularly and discover new opportunities</footer>
 <script>
-const words = [
-  ['achieve', 'достигать', 'She worked hard to achieve her goal.', '/əˈtʃiːv/', 'Core'],
-  ['improve', 'улучшать', 'Reading every day can improve your vocabulary.', '/ɪmˈpruːv/', 'Core'],
-  ['opportunity', 'возможность', 'Learning English can create new opportunities.', '/ˌɒpəˈtjuːnəti/', 'Core'],
-  ['environment', 'окружающая среда; обстановка', 'A supportive environment helps students learn.', '/ɪnˈvaɪrənmənt/', 'Core'],
-  ['require', 'требовать', 'This task requires careful attention.', '/rɪˈkwaɪə/', 'Core'],
-  ['knowledge', 'знания', 'Knowledge becomes more useful when you apply it.', '/ˈnɒlɪdʒ/', 'Core'],
-  ['develop', 'развивать', 'You can develop your speaking skills through practice.', '/dɪˈveləp/', 'Core'],
-  ['challenge', 'трудность; вызов', 'Learning a language is a rewarding challenge.', '/ˈtʃælɪndʒ/', 'Core'],
-  ['confident', 'уверенный', 'Practice helps me feel more confident.', '/ˈkɒnfɪdənt/', 'Core'],
-  ['essential', 'необходимый', 'Communication is an essential skill.', '/ɪˈsenʃəl/', 'Core'],
-  ['reliable', 'надёжный', 'He is a reliable person.', '/rɪˈlaɪəbl/', 'Core'],
-  ['consider', 'рассматривать', 'We should consider this idea.', '/kənˈsɪdə/', 'Core'],
-  ['significant', 'значительный', 'English has a significant role in education.', '/sɪɡˈnɪfɪkənt/', 'Core'],
-  ['requirement', 'требование', 'Experience is an important requirement.', '/rɪˈkwaɪəmənt/', 'Core'],
-  ['approach', 'подход', 'We need a different approach.', '/əˈprəʊtʃ/', 'Core'],
-  ['valuable', 'ценный', 'Knowledge is valuable.', '/ˈvæljuəbl/', 'Core'],
-  ['avoid', 'избегать', 'Try to avoid making mistakes.', '/əˈvɔɪd/', 'Core'],
-  ['maintain', 'поддерживать', 'It is important to maintain progress.', '/meɪnˈteɪn/', 'Core'],
-  ['opinion', 'мнение', 'Everyone has their own opinion.', '/əˈpɪnjən/', 'Core'],
-  ['accomplish', 'выполнять; достигать', 'She managed to accomplish everything on time.', '/əˈkʌmplɪʃ/', 'Advanced'],
-  ['acknowledge', 'признавать; подтверждать', 'He acknowledged his mistake.', '/əkˈnɒlɪdʒ/', 'Advanced'],
-  ['adequate', 'достаточный; подходящий', 'We need adequate preparation for this exam.', '/ˈædɪkwət/', 'Academic'],
-  ['ambitious', 'амбициозный', 'She has ambitious plans for her future.', '/æmˈbɪʃəs/', 'Society'],
-  ['assess', 'оценивать', 'Teachers assess students’ progress regularly.', '/əˈses/', 'Academic'],
-  ['assumption', 'предположение', 'Your assumption might be incorrect.', '/əˈsʌmpʃən/', 'Academic'],
-  ['beneficial', 'полезный; благоприятный', 'Regular reading is beneficial for language learning.', '/ˌbenɪˈfɪʃəl/', 'Academic'],
-  ['circumstance', 'обстоятельство', 'Under these circumstances, we should wait.', '/ˈsɜːkəmstæns/', 'Advanced'],
-  ['coherent', 'последовательный; связный', 'Try to write a coherent explanation.', '/kəʊˈhɪərənt/', 'Academic'],
-  ['compelling', 'убедительный; захватывающий', 'She gave a compelling argument.', '/kəmˈpelɪŋ/', 'Advanced'],
-  ['considerable', 'значительный', 'The project requires considerable effort.', '/kənˈsɪdərəbl/', 'Academic'],
-  ['contribute', 'способствовать; вносить вклад', 'Everyone can contribute to the discussion.', '/kənˈtrɪbjuːt/', 'Academic'],
-  ['controversial', 'спорный', 'It is a controversial decision.', '/ˌkɒntrəˈvɜːʃəl/', 'Society'],
-  ['crucial', 'решающий; крайне важный', 'Communication is crucial for success.', '/ˈkruːʃəl/', 'Advanced'],
-  ['decline', 'снижаться; отказываться', 'The number of visitors began to decline.', '/dɪˈklaɪn/', 'Society'],
-  ['demonstrate', 'демонстрировать; доказывать', 'The experiment demonstrates an important principle.', '/ˈdemənstreɪt/', 'Academic'],
-  ['deteriorate', 'ухудшаться', 'The weather conditions started to deteriorate.', '/dɪˈtɪəriəreɪt/', 'Advanced'],
-  ['distinguish', 'различать; отличать', 'It is important to distinguish facts from opinions.', '/dɪˈstɪŋɡwɪʃ/', 'Academic'],
-  ['diverse', 'разнообразный', 'The city has a diverse population.', '/daɪˈvɜːs/', 'Society'],
-  ['elaborate', 'подробный; разрабатывать', 'Could you elaborate on your idea?', '/ɪˈlæbərət/', 'Academic'],
-  ['emerge', 'появляться; возникать', 'New opportunities may emerge unexpectedly.', '/ɪˈmɜːdʒ/', 'Advanced'],
-  ['emphasise', 'подчёркивать', 'The teacher emphasised the importance of practice.', '/ˈemfəsaɪz/', 'Academic'],
-  ['enhance', 'улучшать; усиливать', 'Technology can enhance the learning experience.', '/ɪnˈhɑːns/', 'Academic'],
-  ['establish', 'устанавливать; основывать', 'They established a successful business.', '/ɪˈstæblɪʃ/', 'Academic'],
-  ['evaluate', 'оценивать; анализировать', 'We need to evaluate the results carefully.', '/ɪˈvæljueɪt/', 'Academic'],
-  ['evident', 'очевидный', 'It became evident that he was right.', '/ˈevɪdənt/', 'Academic'],
-  ['exceed', 'превышать', 'The final cost may exceed our expectations.', '/ɪkˈsiːd/', 'Advanced'],
-  ['exceptional', 'исключительный', 'She has exceptional communication skills.', '/ɪkˈsepʃənəl/', 'Advanced'],
-  ['feasible', 'осуществимый; выполнимый', 'This plan seems perfectly feasible.', '/ˈfiːzəbl/', 'Academic'],
-  ['fundamental', 'основополагающий; фундаментальный', 'Trust is fundamental to any relationship.', '/ˌfʌndəˈmentəl/', 'Academic'],
-  ['inevitable', 'неизбежный', 'Change is an inevitable part of life.', '/ɪnˈevɪtəbl/', 'Advanced'],
-  ['inherent', 'присущий; неотъемлемый', 'Every profession has inherent challenges.', '/ɪnˈhɪərənt/', 'Academic'],
-  ['justify', 'оправдывать; обосновывать', 'Can you justify your decision?', '/ˈdʒʌstɪfaɪ/', 'Academic'],
-  ['nevertheless', 'тем не менее', 'The task was difficult; nevertheless, we completed it.', '/ˌnevəðəˈles/', 'Advanced'],
-  ['perceive', 'воспринимать; осознавать', 'People perceive the world differently.', '/pəˈsiːv/', 'Advanced'],
-  ['persistent', 'настойчивый; постоянный', 'Persistent effort often leads to success.', '/pəˈsɪstənt/', 'Society'],
-  ['predominantly', 'преимущественно', 'The region is predominantly mountainous.', '/prɪˈdɒmɪnəntli/', 'Travel'],
-  ['profound', 'глубокий; значительный', 'The experience had a profound impact on him.', '/prəˈfaʊnd/', 'Advanced'],
-  ['reluctant', 'неохотный; испытывающий нежелание', 'He was reluctant to accept the offer.', '/rɪˈlʌktənt/', 'Advanced'],
-  ['remarkable', 'выдающийся; замечательный', 'She made remarkable progress in English.', '/rɪˈmɑːkəbl/', 'Advanced'],
-  ['substantial', 'значительный; существенный', 'The company made substantial improvements.', '/səbˈstænʃəl/', 'Academic'],
-  ['subsequently', 'впоследствии', 'He moved to Austria and subsequently found a job.', '/ˈsʌbsɪkwəntli/', 'Advanced'],
-  ['sufficient', 'достаточный', 'We have sufficient information to make a decision.', '/səˈfɪʃənt/', 'Academic'],
-  ['tentative', 'предварительный; неокончательный', 'We made a tentative agreement.', '/ˈtentətɪv/', 'Academic'],
-  ['thorough', 'тщательный; подробный', 'You should conduct a thorough analysis.', '/ˈθʌrə/', 'Academic'],
-  ['undergo', 'подвергаться; проходить через', 'The building will undergo major renovations.', '/ˌʌndəˈɡəʊ/', 'Advanced'],
-  ['undermine', 'подрывать; ослаблять', 'Constant criticism can undermine confidence.', '/ˌʌndəˈmaɪn/', 'Advanced'],
-  ['versatile', 'универсальный; разносторонний', 'English is a versatile tool for communication.', '/ˈvɜːsətaɪl/', 'Advanced']
+const words=[
+['achieve','достигать','She worked hard to achieve her goal.'],
+['improve','улучшать','Reading every day can improve your vocabulary.'],
+['opportunity','возможность','Learning English can create new opportunities.'],
+['environment','окружающая среда; обстановка','A supportive environment helps students learn.'],
+['require','требовать','This task requires careful attention.'],
+['knowledge','знания','Knowledge becomes more useful when you apply it.'],
+['develop','развивать','You can develop your speaking skills through practice.'],
+['challenge','трудность; вызов','Learning a language is a rewarding challenge.'],
+['confident','уверенный','Practice helps me feel more confident.'],
+['essential','необходимый','Communication is an essential skill.'],
+['reliable','надёжный','He is a reliable person.'],
+['consider','рассматривать','We should consider this idea.'],
+['significant','значительный','English has a significant role in education.'],
+['requirement','требование','Experience is an important requirement.'],
+['approach','подход','We need a different approach.'],
+['valuable','ценный','Knowledge is valuable.'],
+['avoid','избегать','Try to avoid making mistakes.'],
+['maintain','поддерживать','It is important to maintain progress.'],
+['opinion','мнение','Everyone has their own opinion.']
 ];
 const questions=[
 ['She ___ English for three years.',['studies','has been studying','is study'],1],
@@ -242,7 +142,7 @@ const sentences=[
 ];
 let state;
 try{state=JSON.parse(localStorage.getItem('emProgress')||'{"known":[],"correct":0,"points":0}')}catch(e){state={known:[],correct:0,points:0}}
-let wi=0,si=0,translationVisible=true,filteredWords=words.map((_,i)=>i);
+let wi=0,si=0;
 function save(){localStorage.setItem('emProgress',JSON.stringify(state));updateStats()}
 function updateStats(){
 ['homeWords','pWords'].forEach(id=>document.getElementById(id).textContent=state.known.length);
@@ -250,55 +150,12 @@ function updateStats(){
 ['homePoints','pPoints'].forEach(id=>document.getElementById(id).textContent=state.points);
 document.getElementById('wordProgress').style.width=(state.known.length/words.length*100)+'%';
 document.getElementById('progressCaption').textContent=state.known.length+' из '+words.length+' слов изучено';
-const bar=document.getElementById('vocabBar');
-if(bar)bar.style.width=(state.known.length/words.length*100)+'%';
-const count=document.getElementById('knownCount');
-if(count)count.textContent='Изучено: '+state.known.length+' / '+words.length;
 }
 function showPage(id){document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');});const page=document.getElementById(id);page.classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));}
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
-function renderWord(){
- const w=words[wi],isKnown=state.known.includes(w[0]);
- document.getElementById('wordCard').innerHTML=
- `<div class="word-meta"><span class="level-tag">${w[4]==='Core'?'B1–B2':'B2–C1'} · ${w[4]}</span><span class="muted">${isKnown?'✓ Изучено':'Новое слово'}</span></div>
- <div class="word">${w[0]}</div><div class="word-phonetic">${w[3]}</div>
- <div class="translation" style="${translationVisible?'':'display:none'}">${w[1]}</div>
- <div class="word-example"><span class="muted">Example</span><br><em>${w[2]}</em></div>`;
- document.getElementById('vocabCount').textContent='Карточка '+(wi+1)+' из '+words.length;
- document.getElementById('knownBtn').disabled=isKnown;
- document.getElementById('knownBtn').textContent=isKnown?'Уже изучено ✓':'Знаю это слово ✓';
- document.getElementById('revealWord').textContent=translationVisible?'Скрыть перевод':'Показать перевод';
- renderWordResults();
-}
-function renderWordResults(){
- const q=document.getElementById('wordSearch').value.trim().toLowerCase();
- const cat=document.getElementById('wordCategory').value;
- filteredWords=words.map((_,i)=>i).filter(i=>{
-  const w=words[i];
-  return (cat==='all'||w[4]===cat)&&(!q||(w[0]+' '+w[1]).toLowerCase().includes(q));
- });
- document.getElementById('wordResults').innerHTML=filteredWords.map(i=>{
-  const w=words[i],done=state.known.includes(w[0]);
-  return `<button type="button" class="word-result ${done?'done':''}" data-word-index="${i}"><strong>${w[0]} ${done?'✓':''}</strong><small>${w[1]}</small></button>`;
- }).join('')||'<p class="muted">Ничего не найдено. Попробуй другой запрос.</p>';
- document.getElementById('wordResults').querySelectorAll('[data-word-index]').forEach(btn=>btn.addEventListener('click',()=>{
-  wi=Number(btn.dataset.wordIndex);translationVisible=true;renderWord();document.getElementById('wordCard').scrollIntoView({behavior:'smooth',block:'nearest'});
- }));
-}
-document.getElementById('wordSearch').addEventListener('input',renderWordResults);
-document.getElementById('wordCategory').addEventListener('change',renderWordResults);
+function renderWord(){let w=words[wi];document.getElementById('wordCard').innerHTML=`<div class="word">${w[0]}</div><div class="translation">${w[1]}</div><p>${w[2]}</p><p class="muted">Карточка ${wi+1} из ${words.length}</p>`;document.getElementById('knownBtn').disabled=state.known.includes(w[0]);document.getElementById('knownBtn').textContent=state.known.includes(w[0])?'Уже изучено ✓':'Знаю это слово ✓'}
 document.getElementById('knownBtn').onclick=()=>{if(!state.known.includes(words[wi][0])){state.known.push(words[wi][0]);state.points+=5;save();renderWord()}};
-document.getElementById('nextWord').onclick=()=>{wi=(wi+1)%words.length;translationVisible=true;renderWord()};
-document.getElementById('prevWord').onclick=()=>{wi=(wi-1+words.length)%words.length;translationVisible=true;renderWord()};
-document.getElementById('randomWord').onclick=()=>{wi=Math.floor(Math.random()*words.length);translationVisible=true;renderWord()};
-document.getElementById('revealWord').onclick=()=>{translationVisible=!translationVisible;renderWord()};
-document.getElementById('speakWord').onclick=()=>{
- if(!('speechSynthesis' in window)){alert('В этом браузере озвучивание не поддерживается.');return;}
- window.speechSynthesis.cancel();
- const utterance=new SpeechSynthesisUtterance(words[wi][0]);
- utterance.lang='en-GB';utterance.rate=0.88;
- window.speechSynthesis.speak(utterance);
-};
+document.getElementById('nextWord').onclick=()=>{wi=(wi+1)%words.length;renderWord()};
 function renderQuiz(){document.getElementById('quiz').innerHTML=questions.map((q,i)=>`<div class="question"><strong>${i+1}. ${q[0]}</strong>${q[1].map((a,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}">${a}</label>`).join('')}</div>`).join('')}
 document.getElementById('checkQuiz').onclick=()=>{let score=0;questions.forEach((q,i)=>{let a=document.querySelector(`input[name=q${i}]:checked`);if(a&&+a.value===q[2])score++});state.correct+=score;state.points+=score*2;save();document.getElementById('quizResult').textContent=`Результат: ${score} из ${questions.length}. За правильные ответы начислено ${score*2} баллов.`};
 function renderSentence(){document.getElementById('ruSentence').textContent=sentences[si][0];document.getElementById('translationInput').value='';document.getElementById('translationAnswer').textContent=''}
@@ -306,54 +163,22 @@ document.getElementById('showTranslation').onclick=()=>{document.getElementById(
 document.getElementById('nextSentence').onclick=()=>{si=(si+1)%sentences.length;renderSentence()};
 document.getElementById('reset').onclick=()=>{if(confirm('Сбросить весь сохранённый прогресс?')){state={known:[],correct:0,points:0};save();renderWord()}};
 renderWord();renderQuiz();renderSentence();updateStats();
-</script>
-
-<style>
-#levelTestBtn {
-  position:fixed;bottom:24px;right:24px;z-index:999;
-  background:#5F6F52;color:white;border:0;border-radius:30px;
-  padding:15px 23px;font-size:15px;cursor:pointer;
-  box-shadow:0 5px 20px #0002;
-}
-#levelTestOverlay {
-  display:none;position:fixed;inset:0;z-index:1000;
-  background:#0008;align-items:center;justify-content:center;
-  padding:15px;
-}
-#levelTestBox {
-  background:#FAF7F2;color:#3D2B1F;width:100%;max-width:580px;
-  max-height:90vh;overflow:auto;padding:28px;border-radius:18px;
-  font-family:Arial,sans-serif;
-}
-#levelTestBox h2 {color:#43513B;margin-top:0}
-#levelTestBox .lt-option {
-  display:block;width:100%;text-align:left;margin:9px 0;
-  padding:12px;border:1px solid #E8DED2;border-radius:9px;
-  background:#FFFEFC;color:#3D2B1F;cursor:pointer;font-size:15px;
-}
-#levelTestBox .lt-option:hover {background:#E8EDE3}
-#levelTestBox .lt-option.selected {
-  border:2px solid #5F6F52;background:#E8EDE3;
-}
-#levelTestBox .lt-action {
-  background:#5F6F52;color:white;border:0;border-radius:9px;
-  padding:12px 20px;cursor:pointer;margin-top:15px;font-size:15px;
-}
-#levelTestBox .lt-muted {color:#81766B;font-size:13px}
+</script><style>
+#levelTestBtn{position:fixed;right:24px;bottom:24px;z-index:999;background:#5F6F52;color:#fff;border:0;border-radius:30px;padding:14px 21px;font-size:15px;cursor:pointer;box-shadow:0 5px 20px #0002}
+#levelTestOverlay{display:none;position:fixed;inset:0;z-index:1000;background:#0008;align-items:center;justify-content:center;padding:15px}
+#levelTestBox{box-sizing:border-box;background:#FAF7F2;color:#3D2B1F;width:100%;max-width:580px;max-height:90vh;overflow:auto;padding:28px;border-radius:18px;font-family:Arial,sans-serif}
+#levelTestBox h2{color:#43513B;margin-top:0}
+#levelTestBox .lt-option{display:block;width:100%;text-align:left;margin:9px 0;padding:12px;border:1px solid #E8DED2;border-radius:9px;background:#FFFEFC;color:#3D2B1F;cursor:pointer;font-size:15px}
+#levelTestBox .lt-option:hover,#levelTestBox .lt-option.selected{background:#E8EDE3;border-color:#5F6F52}
+#levelTestBox .lt-action{background:#5F6F52;color:white;border:0;border-radius:9px;padding:12px 20px;cursor:pointer;margin:15px 8px 0 0;font-size:15px}
+#levelTestBox .lt-muted{color:#81766B;font-size:13px}
+@media(max-width:600px){#levelTestBtn{right:14px;bottom:14px;padding:12px 16px}#levelTestBox{padding:20px}}
 </style>
-
-<button id="levelTestBtn" onclick="openLevelTest()">
-  Определить уровень
-</button>
-
-<div id="levelTestOverlay">
-  <div id="levelTestBox">
-    <div id="levelTestContent"></div>
-  </div>
+<button id="levelTestBtn" type="button" onclick="openLevelTest()">Определить уровень</button>
+<div id="levelTestOverlay" role="dialog" aria-modal="true" aria-label="Тест на определение уровня английского">
+  <div id="levelTestBox"><div id="levelTestContent"></div></div>
 </div>
-
 <script>
-
 const levelQuestions = [
   // A1
   {q:"She ___ my sister.",a:["am","is","are","be"],c:1},
@@ -362,7 +187,6 @@ const levelQuestions = [
   {q:"I ___ breakfast at 8 yesterday.",a:["have","had","has","having"],c:1},
   {q:"This is ___ interesting book.",a:["a","an","the","-"],c:1},
   {q:"My brother ___ swim very well.",a:["can","cans","could to","is can"],c:0},
-
   // A2
   {q:"I have known him ___ five years.",a:["since","for","from","during"],c:1},
   {q:"We ___ visit our grandparents tomorrow.",a:["are going to","went","have","were"],c:0},
@@ -370,7 +194,6 @@ const levelQuestions = [
   {q:"She is ___ than her older sister.",a:["more tall","taller","the tallest","most tall"],c:1},
   {q:"I haven't finished my homework ___.",a:["already","just","yet","ever"],c:2},
   {q:"You ___ wear a seat belt in a car.",a:["should to","must","could to","might to"],c:1},
-
   // B1
   {q:"When I arrived, they ___ dinner.",a:["have","had","were having","are having"],c:2},
   {q:"If I ___ you, I would accept the offer.",a:["am","was","were","be"],c:2},
@@ -378,7 +201,6 @@ const levelQuestions = [
   {q:"She asked me where I ___.",a:["live","lived","am living","will live"],c:1},
   {q:"Despite ___ tired, he continued working.",a:["be","being","was","been"],c:1},
   {q:"I wish I ___ more time to practise.",a:["have","had","will have","am having"],c:1},
-
   // B2
   {q:"By the time we arrived, the train ___.",a:["leaves","has left","had left","was leaving"],c:2},
   {q:"Hardly ___ the meeting started when the lights went out.",a:["had","has","did","was"],c:0},
@@ -386,7 +208,6 @@ const levelQuestions = [
   {q:"She denied ___ the confidential information.",a:["to reveal","reveal","revealing","revealed"],c:2},
   {q:"The project needs to be completed ___ Friday.",a:["by","until","during","since"],c:0},
   {q:"Not only ___ the exam, but she also received the highest mark.",a:["she passed","did she pass","she had passed","passed she"],c:1},
-
   // C1
   {q:"Had I known about the problem, I ___ differently.",a:["acted","would act","would have acted","had acted"],c:2},
   {q:"The evidence is not sufficiently ___ to support such a conclusion.",a:["compelling","reluctant","persistent","versatile"],c:0},
@@ -395,5 +216,116 @@ const levelQuestions = [
   {q:"Her argument was clear, logically structured and ___.",a:["coherent","reluctant","tentative","inherent"],c:0},
   {q:"The findings appear to ___ the original assumption.",a:["substantiate","substantial","substance","substantially"],c:0}
 ];
+let levelAnswers = [];
+let currentLevelQuestion = 0;
+function openLevelTest(){levelAnswers=[];currentLevelQuestion=0;document.getElementById('levelTestOverlay').style.display='flex';showLevelQuestion();}
+function showLevelQuestion(){
+ const q=levelQuestions[currentLevelQuestion];
+ let html=`<p class="lt-muted">ВОПРОС ${currentLevelQuestion+1} ИЗ ${levelQuestions.length}</p><h2>Тест на определение уровня</h2><p>${q.q}</p><div>`;
+ q.a.forEach((answer,i)=>{html+=`<button type="button" class="lt-option ${levelAnswers[currentLevelQuestion]===i?'selected':''}" onclick="chooseLevelAnswer(${i})">${String.fromCharCode(65+i)}. ${answer}</button>`;});
+ html+=`</div><button type="button" class="lt-action" onclick="nextLevelQuestion()">${currentLevelQuestion===levelQuestions.length-1?'Узнать результат':'Следующий вопрос'}</button><button type="button" class="lt-action" style="background:#81766B" onclick="closeLevelTest()">Закрыть</button>`;
+ document.getElementById('levelTestContent').innerHTML=html;
+}
+function chooseLevelAnswer(i){levelAnswers[currentLevelQuestion]=i;showLevelQuestion();}
+function nextLevelQuestion(){if(levelAnswers[currentLevelQuestion]===undefined){alert('Сначала выбери ответ!');return;}if(currentLevelQuestion<levelQuestions.length-1){currentLevelQuestion++;showLevelQuestion();}else{showLevelResult();}}
+function showLevelResult(){
+ const score=levelAnswers.reduce((total,answer,i)=>total+(answer===levelQuestions[i].c?1:0),0);
+ let level,description;
+ if(score<=5){level='A1';description='Начальный уровень';}
+ else if(score<=11){level='A2';description='Элементарный уровень';}
+ else if(score<=17){level='B1';description='Средний уровень';}
+ else if(score<=24){level='B2';description='Выше среднего';}
+ else{level='C1';description='Продвинутый уровень';}
+ document.getElementById('levelTestContent').innerHTML=`<p class="lt-muted">ТВОЙ РЕЗУЛЬТАТ</p><h2 style="font-size:48px;margin-bottom:5px">${level}</h2><h3>${description}</h3><p>Правильных ответов: <b>${score} из ${levelQuestions.length}</b></p><p class="lt-muted">Это ориентировочная оценка грамматики и лексики, а не официальный экзамен CEFR.</p><button type="button" class="lt-action" onclick="openLevelTest()">Пройти заново</button><button type="button" class="lt-action" style="background:#81766B" onclick="closeLevelTest()">Закрыть</button>`;
+}
+function closeLevelTest(){document.getElementById('levelTestOverlay').style.display='none';}
+document.getElementById('levelTestOverlay').addEventListener('click',function(e){if(e.target===this)closeLevelTest();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLevelTest();});
+
+let currentLevelQuestion = 0;
+let levelAnswers = new Array(levelQuestions.length).fill(null);
+
+function openLevelTest() {
+  currentLevelQuestion = 0;
+  levelAnswers = new Array(levelQuestions.length).fill(null);
+  document.getElementById('levelTestOverlay').style.display = 'flex';
+  renderLevelQuestion();
+}
+
+function renderLevelQuestion() {
+  const content = document.getElementById('levelTestContent');
+  const q = levelQuestions[currentLevelQuestion];
+  const progress = ((currentLevelQuestion + 1) / levelQuestions.length) * 100;
+
+  content.innerHTML = `
+    <button onclick="closeLevelTest()" style="float:right;border:0;background:none;cursor:pointer;font-size:22px">×</button>
+    <h2>Определение уровня английского</h2>
+    <p class="lt-muted">Вопрос ${currentLevelQuestion + 1} из ${levelQuestions.length}</p>
+    <div class="progress"><span style="width:${progress}%"></span></div>
+    <h3 style="margin-top:25px">${q.q}</h3>
+    ${q.a.map((answer, i) => `
+      <button class="lt-option ${levelAnswers[currentLevelQuestion] === i ? 'selected' : ''}"
+        onclick="selectLevelAnswer(${i})">${answer}</button>
+    `).join('')}
+    <button class="lt-action" onclick="nextLevelQuestion()">
+      ${currentLevelQuestion === levelQuestions.length - 1 ? 'Завершить тест' : 'Следующий вопрос →'}
+    </button>
+    <p class="lt-muted">Выбери один правильный ответ.</p>
+  `;
+}
+
+function selectLevelAnswer(index) {
+  levelAnswers[currentLevelQuestion] = index;
+  renderLevelQuestion();
+}
+
+function nextLevelQuestion() {
+  if (levelAnswers[currentLevelQuestion] === null) {
+    alert('Выбери ответ перед продолжением!');
+    return;
+  }
+
+  if (currentLevelQuestion < levelQuestions.length - 1) {
+    currentLevelQuestion++;
+    renderLevelQuestion();
+  } else {
+    showLevelResult();
+  }
+}
+
+function showLevelResult() {
+  const score = levelAnswers.reduce((total, answer, i) => {
+    return total + (answer === levelQuestions[i].c ? 1 : 0);
+  }, 0);
+
+  let level;
+
+  if (score <= 5) level = 'A1';
+  else if (score <= 11) level = 'A2';
+  else if (score <= 17) level = 'B1';
+  else if (score <= 23) level = 'B2';
+  else level = 'C1';
+
+  document.getElementById('levelTestContent').innerHTML = `
+    <h2>Тест завершён!</h2>
+    <div class="stat" style="font-size:65px;margin:25px 0">${level}</div>
+    <h3>Твой предполагаемый уровень английского</h3>
+    <p>Правильных ответов: ${score} из 30</p>
+    <p class="lt-muted">
+      Это ориентировочная оценка знаний, а не официальный сертификат.
+    </p>
+    <button class="lt-action" onclick="openLevelTest()">Пройти заново</button>
+    <button class="lt-action" onclick="closeLevelTest()">Закрыть</button>
+  `;
+}
+
+function closeLevelTest() {
+  document.getElementById('levelTestOverlay').style.display = 'none';
+}
+
+document.getElementById('levelTestOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeLevelTest();
+});
 </script>
+
 </body></html>
