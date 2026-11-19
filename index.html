@@ -216,31 +216,6 @@ const levelQuestions = [
   {q:"Her argument was clear, logically structured and ___.",a:["coherent","reluctant","tentative","inherent"],c:0},
   {q:"The findings appear to ___ the original assumption.",a:["substantiate","substantial","substance","substantially"],c:0}
 ];
-let levelAnswers = [];
-let currentLevelQuestion = 0;
-function openLevelTest(){levelAnswers=[];currentLevelQuestion=0;document.getElementById('levelTestOverlay').style.display='flex';showLevelQuestion();}
-function showLevelQuestion(){
- const q=levelQuestions[currentLevelQuestion];
- let html=`<p class="lt-muted">ВОПРОС ${currentLevelQuestion+1} ИЗ ${levelQuestions.length}</p><h2>Тест на определение уровня</h2><p>${q.q}</p><div>`;
- q.a.forEach((answer,i)=>{html+=`<button type="button" class="lt-option ${levelAnswers[currentLevelQuestion]===i?'selected':''}" onclick="chooseLevelAnswer(${i})">${String.fromCharCode(65+i)}. ${answer}</button>`;});
- html+=`</div><button type="button" class="lt-action" onclick="nextLevelQuestion()">${currentLevelQuestion===levelQuestions.length-1?'Узнать результат':'Следующий вопрос'}</button><button type="button" class="lt-action" style="background:#81766B" onclick="closeLevelTest()">Закрыть</button>`;
- document.getElementById('levelTestContent').innerHTML=html;
-}
-function chooseLevelAnswer(i){levelAnswers[currentLevelQuestion]=i;showLevelQuestion();}
-function nextLevelQuestion(){if(levelAnswers[currentLevelQuestion]===undefined){alert('Сначала выбери ответ!');return;}if(currentLevelQuestion<levelQuestions.length-1){currentLevelQuestion++;showLevelQuestion();}else{showLevelResult();}}
-function showLevelResult(){
- const score=levelAnswers.reduce((total,answer,i)=>total+(answer===levelQuestions[i].c?1:0),0);
- let level,description;
- if(score<=5){level='A1';description='Начальный уровень';}
- else if(score<=11){level='A2';description='Элементарный уровень';}
- else if(score<=17){level='B1';description='Средний уровень';}
- else if(score<=24){level='B2';description='Выше среднего';}
- else{level='C1';description='Продвинутый уровень';}
- document.getElementById('levelTestContent').innerHTML=`<p class="lt-muted">ТВОЙ РЕЗУЛЬТАТ</p><h2 style="font-size:48px;margin-bottom:5px">${level}</h2><h3>${description}</h3><p>Правильных ответов: <b>${score} из ${levelQuestions.length}</b></p><p class="lt-muted">Это ориентировочная оценка грамматики и лексики, а не официальный экзамен CEFR.</p><button type="button" class="lt-action" onclick="openLevelTest()">Пройти заново</button><button type="button" class="lt-action" style="background:#81766B" onclick="closeLevelTest()">Закрыть</button>`;
-}
-function closeLevelTest(){document.getElementById('levelTestOverlay').style.display='none';}
-document.getElementById('levelTestOverlay').addEventListener('click',function(e){if(e.target===this)closeLevelTest();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLevelTest();});
 
 let currentLevelQuestion = 0;
 let levelAnswers = new Array(levelQuestions.length).fill(null);
