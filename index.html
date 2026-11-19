@@ -88,11 +88,29 @@ footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid va
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}                                                         
 .vocab-library{margin-top:18px}.vocab-toolbar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:14px 0}.vocab-search{flex:1;min-width:220px;border:1px solid var(--line);border-radius:13px;padding:12px 15px;background:#fff;color:var(--coffee);font:inherit;outline:none}.vocab-search:focus{border-color:var(--olive);box-shadow:0 0 0 3px rgba(29,53,87,.10)}.vocab-count{font-size:13px;color:var(--muted)}.vocab-list{display:grid;gap:9px}.vocab-row{display:grid;grid-template-columns:minmax(120px,1fr) minmax(130px,1fr) minmax(150px,1.2fr) auto;gap:12px;align-items:center;padding:13px 15px;border:1px solid var(--line);border-radius:14px;background:#fff;transition:background .2s,border-color .2s}.vocab-row:hover{background:var(--sage);border-color:#A8DADC}.vocab-term{font-weight:750;color:var(--olive-dark)}.vocab-ipa{color:var(--muted);font-size:14px}.vocab-meaning{color:var(--terracotta);font-weight:600}.vocab-open{border:0;border-radius:999px;padding:7px 12px;background:var(--sand);color:var(--olive-dark);font-weight:650;cursor:pointer}.vocab-empty{padding:20px;text-align:center;color:var(--muted);background:var(--sage);border-radius:14px}@media(max-width:650px){.vocab-row{grid-template-columns:1fr 1fr;gap:5px 12px}.vocab-open{justify-self:start}.vocab-meaning{font-size:14px}}
+
+.expression-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:16px 0}
+.expression-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.expression-tab{border:1px solid var(--line);border-radius:999px;padding:9px 15px;background:var(--sage);color:var(--coffee);font-weight:700;cursor:pointer}
+.expression-tab.active{background:var(--olive);color:#fff;border-color:var(--olive)}
+.expression-search{flex:1;min-width:220px;border:1px solid var(--line);border-radius:13px;padding:12px 15px;background:#fff;color:var(--coffee);font:inherit;outline:none}
+.expression-search:focus{border-color:var(--olive);box-shadow:0 0 0 3px rgba(29,53,87,.10)}
+.expression-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:13px;margin-top:16px}
+.expression-card{border:1px solid var(--line);border-radius:17px;background:#fff;padding:18px;transition:transform .2s,border-color .2s,box-shadow .2s}
+.expression-card:hover{transform:translateY(-2px);border-color:#A8DADC;box-shadow:var(--shadow)}
+.expression-card h3{font:700 21px/1.25 Georgia,serif;margin:5px 0;color:var(--olive-dark)}
+.expression-card .ipa{font-size:13px;color:var(--muted);margin:0 0 8px}
+.expression-card .meaning{color:var(--terracotta);font-weight:700;margin:0 0 10px}
+.expression-card .example{border-left:3px solid var(--terracotta);padding:6px 10px;color:var(--muted);font-size:14px;margin:0}
+.expression-tag{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:800}
+.expression-count{font-size:13px;color:var(--muted);margin-left:auto}
+@media(max-width:600px){.expression-list{grid-template-columns:1fr}.expression-search{min-width:100%}}
+
 </style>
 </head>
 <body>
 <header><div class="wrap top"><div class="brand">English <span>Matters</span></div><nav id="nav">
-<button class="active" data-page="home">Главная</button><button data-page="words">Слова</button><button data-page="grammar">Грамматика</button><button data-page="translate">Перевод</button><button data-page="progress">Мой прогресс</button>
+<button class="active" data-page="home">Главная</button><button data-page="words">Слова</button><button data-page="grammar">Грамматика</button><button data-page="expressions">Идиомы</button><button data-page="translate">Перевод</button><button data-page="progress">Мой прогресс</button>
 </nav></div></header>
 <main class="wrap">
 <section id="home" class="page active">
@@ -111,6 +129,12 @@ footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid va
 <div class="card"><span class="section-kicker">Grammar Lab</span><h2>Грамматика</h2><p class="muted">Выбери тему, изучи краткое объяснение и проверь себя в мини-тесте.</p><div id="grammarTopics" class="grammar-topics"></div><div id="grammarLesson" class="grammar-lesson"><div class="grammar-empty">Выбери тему выше, чтобы открыть урок.</div></div></div>
 <div class="card"><span class="section-kicker">Grammar practice</span><h2>Общий грамматический тест</h2><p class="muted">Выбери один правильный вариант в каждом вопросе.</p><form id="quiz"></form><button class="btn primary" id="checkQuiz">Проверить ответы</button><div id="quizResult" class="feedback"></div></div>
 </section>
+<section id="expressions" class="page">
+<div class="card"><span class="section-kicker">Idioms & Phrasal Verbs</span><h2>Устойчивые выражения</h2><p class="muted">Изучай естественные английские выражения, которые помогут звучать увереннее в разговоре и письме.</p>
+<div class="expression-toolbar"><div class="expression-tabs"><button type="button" class="expression-tab active" id="idiomTab" onclick="setExpressionCategory('idiom')">Idioms</button><button type="button" class="expression-tab" id="phrasalTab" onclick="setExpressionCategory('phrasal')">Phrasal Verbs</button><button type="button" class="expression-tab" id="allExpressionTab" onclick="setExpressionCategory('all')">Все</button></div><span class="expression-count" id="expressionCount"></span></div>
+<input class="expression-search" id="expressionSearch" type="search" placeholder="Поиск по выражению или переводу...">
+<div class="expression-list" id="expressionList"></div>
+</div></section>
 <section id="translate" class="page">
 <div class="card"><span class="section-kicker">Translation</span><h2>Практика перевода</h2><p class="muted">Переведи предложение на английский. После ответа открой пример перевода.</p><h3 id="ruSentence"></h3><textarea id="translationInput" placeholder="Напиши перевод на английском..."></textarea><p><button class="btn primary" id="showTranslation">Показать пример</button> <button class="btn" id="nextSentence">Следующее предложение</button></p><div id="translationAnswer" class="feedback"></div></div>
 </section>
@@ -250,6 +274,24 @@ function checkGrammarAnswer(index){
  else{feedback.textContent='Не совсем. '+lesson.explain;feedback.style.color='#A3454F';}
  feedback.dataset.checked='true';
 }
+
+const expressions = [["idiom","break the ice","/ˌbreɪk ði ˈaɪs/","разрядить напряжённую обстановку; завязать разговор","He told a funny story to break the ice."],["idiom","a piece of cake","/ə ˌpiːs əv ˈkeɪk/","проще простого","The grammar exercise was a piece of cake."],["idiom","once in a blue moon","/ˌwʌns ɪn ə ˌbluː ˈmuːn/","крайне редко","We eat at that restaurant once in a blue moon."],["idiom","under the weather","/ˌʌndə ðə ˈweðə/","плохо себя чувствовать","I'm feeling a bit under the weather today."],["idiom","the best of both worlds","/ðə ˌbest əv bəʊθ ˈwɜːldz/","лучшее из двух вариантов","Working remotely gives her the best of both worlds."],["idiom","cost an arm and a leg","/ˌkɒst ən ˌɑːm ənd ə ˈleɡ/","стоить целое состояние","That designer bag costs an arm and a leg."],["idiom","get out of hand","/ˌɡet aʊt əv ˈhænd/","выйти из-под контроля","The discussion got out of hand."],["idiom","on the same page","/ɒn ðə ˌseɪm ˈpeɪdʒ/","одинаково понимать ситуацию; быть на одной волне","Let's make sure we're on the same page."],["idiom","call it a day","/ˌkɔːl ɪt ə ˈdeɪ/","закончить работу на сегодня","We've done enough, so let's call it a day."],["idiom","miss the point","/ˌmɪs ðə ˈpɔɪnt/","не понять сути","I think you've missed the point of the article."],["idiom","keep an eye on","/ˌkiːp ən ˈaɪ ɒn/","присматривать; следить за","Could you keep an eye on my bag?"],["idiom","in the long run","/ɪn ðə ˌlɒŋ ˈrʌn/","в долгосрочной перспективе","Regular practice will pay off in the long run."],["phrasal","bring up","/ˌbrɪŋ ˈʌp/","затронуть тему; воспитать","She brought up an interesting question."],["phrasal","carry out","/ˌkæri ˈaʊt/","выполнять; проводить","The researchers carried out an experiment."],["phrasal","come across","/ˌkʌm əˈkrɒs/","случайно натолкнуться; производить впечатление","I came across a useful article yesterday."],["phrasal","come up with","/ˌkʌm ˈʌp wɪð/","придумать; предложить","We need to come up with a better solution."],["phrasal","deal with","/ˌdiːl ˈwɪð/","иметь дело; справляться","She knows how to deal with difficult situations."],["phrasal","find out","/ˌfaɪnd ˈaʊt/","выяснить; узнать","I found out the answer after some research."],["phrasal","get along with","/ˌɡet əˈlɒŋ wɪð/","ладить с кем-либо","He gets along with his colleagues."],["phrasal","give up","/ˌɡɪv ˈʌp/","сдаваться; бросать","Don't give up when something seems difficult."],["phrasal","look forward to","/ˌlʊk ˈfɔːwəd tə/","с нетерпением ждать","I'm looking forward to hearing from you."],["phrasal","look into","/ˌlʊk ˈɪntuː/","изучить; расследовать","The committee will look into the matter."],["phrasal","put off","/ˌpʊt ˈɒf/","откладывать","We shouldn't put off important decisions."],["phrasal","run out of","/ˌrʌn ˈaʊt əv/","исчерпать запас; закончиться","We've run out of time."],["phrasal","set up","/ˌset ˈʌp/","организовать; создать","They set up a language club."],["phrasal","take up","/ˌteɪk ˈʌp/","начать заниматься чем-либо","She has taken up learning Italian."],["phrasal","turn down","/ˌtɜːn ˈdaʊn/","отклонить; убавить","He turned down the invitation."]];
+let expressionCategory = 'idiom';
+function setExpressionCategory(category){
+ expressionCategory=category;
+ document.getElementById('idiomTab').classList.toggle('active',category==='idiom');
+ document.getElementById('phrasalTab').classList.toggle('active',category==='phrasal');
+ document.getElementById('allExpressionTab').classList.toggle('active',category==='all');
+ renderExpressions(document.getElementById('expressionSearch').value);
+}
+function renderExpressions(filter=''){
+ const query=filter.trim().toLowerCase();
+ const items=expressions.filter(item=>(expressionCategory==='all'||item[0]===expressionCategory)&&item.join(' ').toLowerCase().includes(query));
+ document.getElementById('expressionCount').textContent=items.length+' выражений';
+ document.getElementById('expressionList').innerHTML=items.length?items.map(item=>'<article class="expression-card"><span class="expression-tag">'+(item[0]==='idiom'?'IDIOM':'PHRASAL VERB')+'</span><h3>'+item[1]+'</h3><p class="ipa">'+item[2]+'</p><p class="meaning">'+item[3]+'</p><p class="example">'+item[4]+'</p></article>').join(''):'<div class="vocab-empty">Ничего не найдено. Попробуй другой запрос.</div>';
+}
+document.getElementById('expressionSearch').addEventListener('input',e=>renderExpressions(e.target.value));
+
 function renderWord(){let w=words[wi];document.getElementById('wordCard').innerHTML=`<div class="word">${w[0]}</div><p class="muted" style="margin:4px 0 10px">/${w[1]}/</p><div class="translation">${w[2]}</div><p>${w[3]}</p><p class="muted">Карточка ${wi+1} из ${words.length}</p>`;document.getElementById('knownBtn').disabled=state.known.includes(w[0]);document.getElementById('knownBtn').textContent=state.known.includes(w[0])?'Уже изучено ✓':'Знаю это слово ✓'}
 document.getElementById('knownBtn').onclick=()=>{if(!state.known.includes(words[wi][0])){state.known.push(words[wi][0]);state.points+=5;save();renderWord()}};
 document.getElementById('nextWord').onclick=()=>{wi=(wi+1)%words.length;renderWord()};
@@ -267,7 +309,7 @@ function renderSentence(){document.getElementById('ruSentence').textContent=sent
 document.getElementById('showTranslation').onclick=()=>{document.getElementById('translationAnswer').textContent='Возможный перевод: '+sentences[si][1];state.points+=1;save()};
 document.getElementById('nextSentence').onclick=()=>{si=(si+1)%sentences.length;renderSentence()};
 document.getElementById('reset').onclick=()=>{if(confirm('Сбросить весь сохранённый прогресс?')){state={known:[],correct:0,points:0};save();renderWord()}};
-renderWord();renderVocabularyList();renderQuiz();renderSentence();renderGrammarTopics();openGrammarLesson(0);updateStats();
+renderWord();renderVocabularyList();renderExpressions();renderQuiz();renderSentence();renderGrammarTopics();openGrammarLesson(0);updateStats();
 </script><style>
 #levelTestBtn{position:fixed;right:24px;bottom:24px;z-index:999;background:#1D3557;color:#fff;border:0;border-radius:30px;padding:14px 21px;font-size:15px;cursor:pointer;box-shadow:0 5px 20px #0002}
 #levelTestOverlay{display:none;position:fixed;inset:0;z-index:1000;background:#0008;align-items:center;justify-content:center;padding:15px}
