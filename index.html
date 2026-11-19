@@ -64,6 +64,22 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .stat-card{background:var(--sand);border:1px solid var(--line);border-radius:17px;padding:17px}
 .section-kicker{color:var(--terracotta);font-size:12px;font-weight:750;letter-spacing:1.3px;text-transform:uppercase}
 footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid var(--line);font-size:14px}
+.grammar-topics{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:22px 0}
+.grammar-topic{border:1px solid var(--line);background:var(--sage);color:var(--coffee);border-radius:15px;padding:15px;text-align:left;cursor:pointer;transition:transform .2s,border-color .2s,background .2s}
+.grammar-topic:hover{transform:translateY(-2px);border-color:var(--terracotta)}
+.grammar-topic.active{background:var(--sand);border-color:var(--terracotta);box-shadow:0 0 0 2px rgba(163,69,79,.08)}
+.grammar-topic strong{display:block;font-size:15px;margin-bottom:4px}
+.grammar-topic small{color:var(--muted)}
+.grammar-lesson{background:#FFF9FA;border:1px solid var(--line);border-radius:17px;padding:20px;min-height:110px}
+.grammar-lesson h3{margin:0 0 8px}
+.grammar-lesson .rule{background:var(--sage);border-radius:12px;padding:13px;margin:14px 0;font-weight:650}
+.grammar-lesson .example{border-left:3px solid var(--terracotta);padding:7px 12px;margin:10px 0}
+.grammar-lesson .lesson-option{display:block;width:100%;text-align:left;border:1px solid var(--line);border-radius:11px;background:#fff;padding:11px 13px;margin:8px 0;cursor:pointer;color:var(--coffee)}
+.grammar-lesson .lesson-option:hover{background:var(--sage);border-color:var(--olive)}
+.grammar-lesson .lesson-option:disabled{cursor:default;opacity:1}
+.grammar-empty{color:var(--muted);text-align:center;padding:22px 8px}
+@media(max-width:600px){.grammar-lesson{padding:15px}.grammar-topics{grid-template-columns:1fr 1fr}}
+
 @media(max-width:720px){
  .top{padding:14px 0;align-items:flex-start;flex-direction:column}
  nav{width:100%}nav button{font-size:13px;padding:9px 12px}
@@ -91,7 +107,8 @@ footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid va
 <div class="card"><span class="section-kicker">Vocabulary</span><h2>Словарные карточки</h2><p class="muted">Изучи слово, прочитай пример и отметь его как изученное.</p><div id="wordCard"></div><button class="btn" id="knownBtn">Знаю это слово ✓</button> <button class="btn primary" id="nextWord">Следующее слово →</button></div>
 </section>
 <section id="grammar" class="page">
-<div class="card"><span class="section-kicker">Grammar practice</span><h2>Грамматический тест</h2><p class="muted">Выбери один правильный вариант в каждом вопросе.</p><form id="quiz"></form><button class="btn primary" id="checkQuiz">Проверить ответы</button><div id="quizResult" class="feedback"></div></div>
+<div class="card"><span class="section-kicker">Grammar Lab</span><h2>Грамматика без пробелов</h2><p class="muted">Выбери тему, изучи краткое объяснение и проверь себя в мини-тесте.</p><div id="grammarTopics" class="grammar-topics"></div><div id="grammarLesson" class="grammar-lesson"><div class="grammar-empty">Выбери тему выше, чтобы открыть урок.</div></div></div>
+<div class="card"><span class="section-kicker">Grammar practice</span><h2>Общий грамматический тест</h2><p class="muted">Выбери один правильный вариант в каждом вопросе.</p><form id="quiz"></form><button class="btn primary" id="checkQuiz">Проверить ответы</button><div id="quizResult" class="feedback"></div></div>
 </section>
 <section id="translate" class="page">
 <div class="card"><span class="section-kicker">Translation</span><h2>Практика перевода</h2><p class="muted">Переведи предложение на английский. После ответа открой пример перевода.</p><h3 id="ruSentence"></h3><textarea id="translationInput" placeholder="Напиши перевод на английском..."></textarea><p><button class="btn primary" id="showTranslation">Показать пример</button> <button class="btn" id="nextSentence">Следующее предложение</button></p><div id="translationAnswer" class="feedback"></div></div>
@@ -153,6 +170,37 @@ document.getElementById('progressCaption').textContent=state.known.length+' из
 }
 function showPage(id){document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');});const page=document.getElementById(id);page.classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));}
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+const grammarLessons = [
+{title:"Verb Tenses",level:"B1–B2",summary:"Времена английского глагола",rule:"Present Perfect связывает прошлое с настоящим. Past Perfect показывает действие, которое произошло раньше другого момента в прошлом.",structure:"Present Perfect: have / has + V3. Past Perfect: had + V3.",examples:["I have finished the report. — Я закончил отчёт (результат важен сейчас).","She had left before I arrived. — Она ушла до моего приезда."],q:"By the time we got to the station, the train ___.",a:["has left","had left","was leaving"],correct:1,explain:"Past Perfect показывает, что поезд ушёл раньше другого действия в прошлом."},
+{title:"Conditionals",level:"B1–C1",summary:"Условные предложения",rule:"Zero — факты и закономерности. First — реальное будущее условие. Second — воображаемая ситуация. Third — нереальное прошлое.",structure:"Zero: If + Present, Present. First: If + Present, will + V. Second: If + Past, would + V. Third: If + Past Perfect, would have + V3.",examples:["If water reaches 100°C, it boils. — Если вода достигает 100°C, она кипит.","If I had more time, I would travel. — Если бы у меня было больше времени, я бы путешествовал.","If she had studied, she would have passed. — Если бы она занималась, она бы сдала экзамен."],q:"If I had known about the meeting, I ___ earlier.",a:["would come","would have come","will come"],correct:1,explain:"Third Conditional: If + Past Perfect, would have + V3."},
+{title:"Passive Voice",level:"B1–B2",summary:"Пассивный залог",rule:"Passive Voice используется, когда важнее само действие или его результат, а не тот, кто его выполняет.",structure:"Форма be в нужном времени + V3 (Past Participle).",examples:["The results were announced yesterday. — Результаты объявили вчера.","The building is being renovated. — Здание сейчас ремонтируют."],q:"The new bridge ___ next year.",a:["will build","will be built","is building"],correct:1,explain:"Future Simple Passive: will be + V3."},
+{title:"Reported Speech",level:"B1–B2",summary:"Косвенная речь",rule:"Когда мы передаём чужие слова, время часто сдвигается на шаг назад, если глагол сообщения стоит в прошедшем времени.",structure:"say / tell + (that) + clause. Present Simple → Past Simple; will → would; can → could.",examples:["Direct: “I am tired.” → Reported: She said (that) she was tired.","Direct: “We will help.” → Reported: They said they would help."],q:"Tom said, “I can swim.” → Tom said that he ___ swim.",a:["can","could","will"],correct:1,explain:"В косвенной речи can обычно меняется на could после said в прошедшем времени."},
+{title:"Modal Verbs",level:"B1–C1",summary:"Модальные глаголы",rule:"Модальные глаголы выражают возможность, обязанность, совет, вероятность и отношение говорящего.",structure:"modal verb + infinitive без to. Исключения вроде ought to и have to имеют собственные конструкции.",examples:["You should revise the material. — Тебе следует повторить материал.","She might be at home. — Возможно, она дома.","You must have forgotten. — Должно быть, ты забыл."],q:"You ___ have told me earlier; I could have helped.",a:["should","must","can"],correct:0,explain:"Should have + V3 выражает сожаление или критику по поводу того, что следовало сделать."},
+{title:"Gerund & Infinitive",level:"B1–C1",summary:"Герундий и инфинитив",rule:"После одних глаголов используется форма -ing, после других — to + infinitive. Иногда обе формы возможны, но значение меняется.",structure:"enjoy / avoid / consider + V-ing; decide / hope / manage + to + V.",examples:["I enjoy learning languages. — Мне нравится изучать языки.","She decided to apply. — Она решила подать заявку.","He stopped smoking. — Он бросил курить."],q:"They decided ___ the project next month.",a:["starting","to start","start"],correct:1,explain:"После decide используется to + infinitive: decide to do something."},
+{title:"Inversion",level:"C1",summary:"Инверсия для выразительности",rule:"После отрицательных или ограничительных выражений в начале предложения часто используется обратный порядок слов: вспомогательный глагол ставится перед подлежащим.",structure:"Negative expression + auxiliary + subject + main verb.",examples:["Never have I seen such a view. — Никогда прежде я не видел такого вида.","Not only did she pass, but she also won a prize. — Она не только сдала экзамен, но и получила приз."],q:"Rarely ___ such a challenging task.",a:["I have faced","have I faced","I faced"],correct:1,explain:"Rarely в начале предложения вызывает инверсию: have + subject + V3."}
+];
+let activeGrammarLesson = 0;
+function renderGrammarTopics(){
+ const host=document.getElementById('grammarTopics');
+ host.innerHTML=grammarLessons.map((lesson,i)=>'<button type="button" class="grammar-topic '+(i===activeGrammarLesson?'active':'')+'" onclick="openGrammarLesson('+i+')"><strong>'+lesson.title+'</strong><small>'+lesson.level+' · '+lesson.summary+'</small></button>').join('');
+}
+function openGrammarLesson(index){
+ activeGrammarLesson=index;
+ renderGrammarTopics();
+ const lesson=grammarLessons[index];
+ const host=document.getElementById('grammarLesson');
+ host.innerHTML='<h3>'+lesson.title+'</h3><p class="muted">'+lesson.summary+' · '+lesson.level+'</p><p>'+lesson.rule+'</p><div class="rule">'+lesson.structure+'</div><h4>Примеры</h4>'+lesson.examples.map(example=>'<div class="example">'+example+'</div>').join('')+'<div class="question"><strong>Проверь себя</strong><p>'+lesson.q+'</p>'+lesson.a.map((answer,i)=>'<button type="button" class="lesson-option" onclick="checkGrammarAnswer('+i+')">'+String.fromCharCode(65+i)+'. '+answer+'</button>').join('')+'<div id="grammarLessonFeedback" class="feedback"></div></div>';
+}
+function checkGrammarAnswer(index){
+ const lesson=grammarLessons[activeGrammarLesson];
+ const feedback=document.getElementById('grammarLessonFeedback');
+ if(feedback.dataset.checked==='true') return;
+ const buttons=document.querySelectorAll('#grammarLesson .lesson-option');
+ buttons.forEach((button,i)=>{button.disabled=true;if(i===lesson.correct)button.style.borderColor='#1D3557';if(i===index&&i!==lesson.correct)button.style.borderColor='#A3454F'});
+ if(index===lesson.correct){feedback.textContent='Верно! '+lesson.explain;feedback.style.color='#1D3557';}
+ else{feedback.textContent='Не совсем. '+lesson.explain;feedback.style.color='#A3454F';}
+ feedback.dataset.checked='true';
+}
 function renderWord(){let w=words[wi];document.getElementById('wordCard').innerHTML=`<div class="word">${w[0]}</div><div class="translation">${w[1]}</div><p>${w[2]}</p><p class="muted">Карточка ${wi+1} из ${words.length}</p>`;document.getElementById('knownBtn').disabled=state.known.includes(w[0]);document.getElementById('knownBtn').textContent=state.known.includes(w[0])?'Уже изучено ✓':'Знаю это слово ✓'}
 document.getElementById('knownBtn').onclick=()=>{if(!state.known.includes(words[wi][0])){state.known.push(words[wi][0]);state.points+=5;save();renderWord()}};
 document.getElementById('nextWord').onclick=()=>{wi=(wi+1)%words.length;renderWord()};
@@ -162,7 +210,7 @@ function renderSentence(){document.getElementById('ruSentence').textContent=sent
 document.getElementById('showTranslation').onclick=()=>{document.getElementById('translationAnswer').textContent='Возможный перевод: '+sentences[si][1];state.points+=1;save()};
 document.getElementById('nextSentence').onclick=()=>{si=(si+1)%sentences.length;renderSentence()};
 document.getElementById('reset').onclick=()=>{if(confirm('Сбросить весь сохранённый прогресс?')){state={known:[],correct:0,points:0};save();renderWord()}};
-renderWord();renderQuiz();renderSentence();updateStats();
+renderWord();renderQuiz();renderSentence();renderGrammarTopics();openGrammarLesson(0);updateStats();
 </script><style>
 #levelTestBtn{position:fixed;right:24px;bottom:24px;z-index:999;background:#1D3557;color:#fff;border:0;border-radius:30px;padding:14px 21px;font-size:15px;cursor:pointer;box-shadow:0 5px 20px #0002}
 #levelTestOverlay{display:none;position:fixed;inset:0;z-index:1000;background:#0008;align-items:center;justify-content:center;padding:15px}
