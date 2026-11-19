@@ -87,6 +87,7 @@ footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid va
  .wrap{padding:0 16px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}                                                         
+.vocab-library{margin-top:18px}.vocab-toolbar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:14px 0}.vocab-search{flex:1;min-width:220px;border:1px solid var(--line);border-radius:13px;padding:12px 15px;background:#fff;color:var(--coffee);font:inherit;outline:none}.vocab-search:focus{border-color:var(--olive);box-shadow:0 0 0 3px rgba(29,53,87,.10)}.vocab-count{font-size:13px;color:var(--muted)}.vocab-list{display:grid;gap:9px}.vocab-row{display:grid;grid-template-columns:minmax(120px,1fr) minmax(130px,1fr) minmax(150px,1.2fr) auto;gap:12px;align-items:center;padding:13px 15px;border:1px solid var(--line);border-radius:14px;background:#fff;transition:background .2s,border-color .2s}.vocab-row:hover{background:var(--sage);border-color:#A8DADC}.vocab-term{font-weight:750;color:var(--olive-dark)}.vocab-ipa{color:var(--muted);font-size:14px}.vocab-meaning{color:var(--terracotta);font-weight:600}.vocab-open{border:0;border-radius:999px;padding:7px 12px;background:var(--sand);color:var(--olive-dark);font-weight:650;cursor:pointer}.vocab-empty{padding:20px;text-align:center;color:var(--muted);background:var(--sage);border-radius:14px}@media(max-width:650px){.vocab-row{grid-template-columns:1fr 1fr;gap:5px 12px}.vocab-open{justify-self:start}.vocab-meaning{font-size:14px}}
 </style>
 </head>
 <body>
@@ -104,7 +105,7 @@ footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid va
 <div class="card"><span class="section-kicker">Explore & learn</span><h2>Твой путь к английскому</h2><p>• Запоминай слова уровня B1–B2 с примерами.</p><p>• Проверяй знания в грамматических тестах.</p><p>• Переводи предложения с русского на английский.</p><p>• Следи за личным прогрессом и возвращайся к занятиям.</p></div>
 </section>
 <section id="words" class="page">
-<div class="card"><span class="section-kicker">Vocabulary</span><h2>Словарные карточки</h2><p class="muted">Изучи слово, прочитай пример и отметь его как изученное.</p><div id="wordCard"></div><button class="btn" id="knownBtn">Знаю это слово ✓</button> <button class="btn primary" id="nextWord">Следующее слово →</button></div>
+<div class="card"><span class="section-kicker">Vocabulary</span><h2>Словарные карточки</h2><p class="muted">Изучи слово, прочитай пример и отметь его как изученное.</p><div id="wordCard"></div><button class="btn" id="knownBtn">Знаю это слово ✓</button> <button class="btn primary" id="nextWord">Следующее слово →</button></div><div class="card vocab-library"><span class="section-kicker">Full vocabulary</span><h2>Весь словарь</h2><p class="muted">Просматривай все слова, их транскрипцию и перевод. Используй поиск, чтобы быстро найти нужное слово.</p><div class="vocab-toolbar"><input class="vocab-search" id="vocabSearch" type="search" placeholder="Поиск по слову, транскрипции или переводу..."><span class="vocab-count" id="vocabCount"></span></div><div class="vocab-list" id="allWordsList"></div></div>
 </section>
 <section id="grammar" class="page">
 <div class="card"><span class="section-kicker">Grammar Lab</span><h2>Грамматика</h2><p class="muted">Выбери тему, изучи краткое объяснение и проверь себя в мини-тесте.</p><div id="grammarTopics" class="grammar-topics"></div><div id="grammarLesson" class="grammar-lesson"><div class="grammar-empty">Выбери тему выше, чтобы открыть урок.</div></div></div>
@@ -252,13 +253,21 @@ function checkGrammarAnswer(index){
 function renderWord(){let w=words[wi];document.getElementById('wordCard').innerHTML=`<div class="word">${w[0]}</div><p class="muted" style="margin:4px 0 10px">/${w[1]}/</p><div class="translation">${w[2]}</div><p>${w[3]}</p><p class="muted">Карточка ${wi+1} из ${words.length}</p>`;document.getElementById('knownBtn').disabled=state.known.includes(w[0]);document.getElementById('knownBtn').textContent=state.known.includes(w[0])?'Уже изучено ✓':'Знаю это слово ✓'}
 document.getElementById('knownBtn').onclick=()=>{if(!state.known.includes(words[wi][0])){state.known.push(words[wi][0]);state.points+=5;save();renderWord()}};
 document.getElementById('nextWord').onclick=()=>{wi=(wi+1)%words.length;renderWord()};
+function renderVocabularyList(filter=''){
+ const query=filter.trim().toLowerCase();
+ const matches=words.map((word,index)=>({word,index})).filter(({word})=>word.join(' ').toLowerCase().includes(query));
+ document.getElementById('vocabCount').textContent=matches.length+' из '+words.length+' слов';
+ document.getElementById('allWordsList').innerHTML=matches.length?matches.map(({word,index})=>'<div class="vocab-row"><span class="vocab-term">'+word[0]+'</span><span class="vocab-ipa">/'+word[1]+'/</span><span class="vocab-meaning">'+word[2]+'</span><button class="vocab-open" onclick="openVocabularyWord('+index+')">Открыть</button></div>').join(''):'<div class="vocab-empty">Ничего не найдено. Попробуй другой запрос.</div>';
+}
+function openVocabularyWord(index){wi=index;renderWord();document.getElementById('wordCard').scrollIntoView({behavior:'smooth',block:'center'});}
+document.getElementById('vocabSearch').addEventListener('input',e=>renderVocabularyList(e.target.value));
 function renderQuiz(){document.getElementById('quiz').innerHTML=questions.map((q,i)=>`<div class="question"><strong>${i+1}. ${q[0]}</strong>${q[1].map((a,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}">${a}</label>`).join('')}</div>`).join('')}
 document.getElementById('checkQuiz').onclick=()=>{let score=0;questions.forEach((q,i)=>{let a=document.querySelector(`input[name=q${i}]:checked`);if(a&&+a.value===q[2])score++});state.correct+=score;state.points+=score*2;save();document.getElementById('quizResult').textContent=`Результат: ${score} из ${questions.length}. За правильные ответы начислено ${score*2} баллов.`};
 function renderSentence(){document.getElementById('ruSentence').textContent=sentences[si][0];document.getElementById('translationInput').value='';document.getElementById('translationAnswer').textContent=''}
 document.getElementById('showTranslation').onclick=()=>{document.getElementById('translationAnswer').textContent='Возможный перевод: '+sentences[si][1];state.points+=1;save()};
 document.getElementById('nextSentence').onclick=()=>{si=(si+1)%sentences.length;renderSentence()};
 document.getElementById('reset').onclick=()=>{if(confirm('Сбросить весь сохранённый прогресс?')){state={known:[],correct:0,points:0};save();renderWord()}};
-renderWord();renderQuiz();renderSentence();renderGrammarTopics();openGrammarLesson(0);updateStats();
+renderWord();renderVocabularyList();renderQuiz();renderSentence();renderGrammarTopics();openGrammarLesson(0);updateStats();
 </script><style>
 #levelTestBtn{position:fixed;right:24px;bottom:24px;z-index:999;background:#1D3557;color:#fff;border:0;border-radius:30px;padding:14px 21px;font-size:15px;cursor:pointer;box-shadow:0 5px 20px #0002}
 #levelTestOverlay{display:none;position:fixed;inset:0;z-index:1000;background:#0008;align-items:center;justify-content:center;padding:15px}
