@@ -107,23 +107,7 @@ footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid va
 @media(max-width:600px){.expression-list{grid-template-columns:1fr}.expression-search{min-width:100%}}
 
 
-/* Alpine collection — integrated home-page gallery */
-.alpine-section{margin-top:22px}
-.alpine-heading{display:flex;align-items:end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:15px}
-.alpine-heading h2{font:700 clamp(25px,3vw,32px)/1.15 Georgia,serif;color:var(--coffee);margin:5px 0}
-.alpine-heading p{margin:0;color:var(--muted);max-width:520px}
-.alpine-gallery{display:grid;grid-template-columns:1.35fr 1fr;grid-template-rows:190px 190px;gap:14px}
-.alpine-art{position:relative;overflow:hidden;border-radius:19px;border:1px solid var(--line);background:var(--sage);min-height:160px;isolation:isolate}
-.alpine-art:first-child{grid-row:1/3}
-.alpine-art img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;transition:transform .65s ease;z-index:-2}
-.alpine-art:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(18,35,55,.78));z-index:-1}
-.alpine-art:hover img{transform:scale(1.055)}
-.alpine-caption{position:absolute;left:19px;right:18px;bottom:16px;color:#fff}
-.alpine-caption small{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;opacity:.86;font-weight:750}
-.alpine-caption h3{font:700 22px/1.15 Georgia,serif;margin:5px 0 2px;color:#fff}
-.alpine-caption p{font-size:12px;margin:0;color:rgba(255,255,255,.88)}
-.alpine-note{margin-top:13px;padding:13px 16px;border-radius:14px;background:var(--sage);color:var(--muted);font-size:13px}
-@media(max-width:600px){.alpine-gallery{grid-template-columns:1fr 1fr;grid-template-rows:210px 145px}.alpine-art:first-child{grid-column:1/3;grid-row:auto}.alpine-caption{left:13px;bottom:12px}.alpine-caption h3{font-size:18px}}
+
 
 </style>
 </head>
@@ -141,17 +125,7 @@ footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid va
 </div>
 <div class="card"><span class="section-kicker">Explore & learn</span><h2>Твой путь к английскому</h2><p>• Запоминай слова уровня B1–B2 с примерами.</p><p>• Проверяй знания в грамматических тестах.</p><p>• Переводи предложения с русского на английский.</p><p>• Следи за личным прогрессом и возвращайся к занятиям.</p></div>
 
-<section class="alpine-section" aria-labelledby="alpineTitle">
- <div class="alpine-heading">
-  <div><span class="section-kicker">A little inspiration</span><h2 id="alpineTitle">The Alpine Collection</h2><p>Открывай новые места, вдохновляйся пейзажами и узнавай больше о мире на английском.</p></div>
- </div>
- <div class="alpine-gallery">
-  <article class="alpine-art"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85" alt="Величественные заснеженные вершины Альп" loading="lazy"><div class="alpine-caption"><small>Switzerland · Mountain landscapes</small><h3>Beyond the Mountains</h3><p>Where the sky meets the peaks.</p></div></article>
-  <article class="alpine-art"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=85" alt="Горный пейзаж в мягком вечернем свете" loading="lazy"><div class="alpine-caption"><small>Alpine scenery</small><h3>Quiet Horizons</h3><p>A moment of calm.</p></div></article>
-  <article class="alpine-art"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=85" alt="Озеро среди горного пейзажа" loading="lazy"><div class="alpine-caption"><small>Austria · Lakes & valleys</small><h3>Into the Valley</h3><p>Discover the beauty of nature.</p></div></article>
- </div>
- <div class="alpine-note">ENGLISH MATTERS · Learn a language. Explore the world.</div>
-</section>
+
 
 </section>
 <section id="words" class="page">
